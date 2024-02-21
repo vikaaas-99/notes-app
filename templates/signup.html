@@ -1,0 +1,80 @@
+<!-- signup.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Welcome to Notes!</h2>
+                </div>
+                <div class="card-body">
+                    <form id="signup-form">
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                    </form>
+                    <p class="mt-3">Already have an account? <a href="{% url 'notes:login' %}">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#signup-form').submit(function (event) {
+            event.preventDefault();
+            var username = $('#username').val();
+            var email = $('#email').val();
+            var password = $('#password').val();
+
+            // Make AJAX call to create new user
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'notes:create_new_user' %}",
+                data: {
+                    'username': username,
+                    'email': email,
+                    'password': password
+                },
+                success: function (response) {
+                    alert('User created successfully!');
+                    // Redirect to another page if needed
+                    // window.location.href = '/login/';
+                },
+                error: function (xhr, errmsg, err) {
+                    alert('Error creating user. Please try again.');
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
